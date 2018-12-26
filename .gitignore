@@ -1,0 +1,9 @@
+.env
+/node_modules
+/bin/www
+/public/images/*
+package-lock.json
+.idea
+.vscode
+.history
+build
