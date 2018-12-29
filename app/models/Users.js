@@ -11,7 +11,9 @@ let userSchema = new Schema({
     day_of_birth: Date,
     phone_number: String,
     avatar: String,
-    gender: String
+    gender: String,
+    created_at: {type: Date, required: true, default: new Date()},
+    updated_at: {type: Date, required: true, default: new Date()}
 });
 
 let Users = mongoose.model("Users", userSchema);

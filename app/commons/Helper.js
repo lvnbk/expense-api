@@ -1,6 +1,6 @@
 var bcrypt     = require('bcrypt');
 var jwt        = require('jsonwebtoken');
-let jwtConfig  = require('config/jwt');
+// let jwtConfig  = require('config/jwt');
 var saltRounds = 10;
 var salt       = bcrypt.genSaltSync(saltRounds);
 var mongoose = require("mongoose");
@@ -39,13 +39,13 @@ const Helper = {
         }
     },
 
-    generate_token: (user_id) => {
-        return jwt.sign(
-            { data: user_id },
-            jwtConfig.superSecret,
-            {expiresIn: jwtConfig.expiresIn}
-        );
-    },
+    // generate_token: (user_id) => {
+    //     return jwt.sign(
+    //         { data: user_id },
+    //         jwtConfig.superSecret,
+    //         {expiresIn: jwtConfig.expiresIn}
+    //     );
+    // },
 
     email_checker: (str) => {
         let email_check = ["@gmail.com", "@Outlook.com", "@yahoo.com", "@inbox.com", "@mail.com"];
