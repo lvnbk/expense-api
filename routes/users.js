@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const UserController =  require('../app/controllers/UserController');
+const Authentication  = require('../app/middlewares/Authentication');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -24,6 +25,10 @@ router.post('/create-user', function (req, res, next) {
             data: user
         })
     })
+});
+
+router.get('/friends', Authentication, function(req, res, next) {
+    res.json({message: 'friends'});
 });
 
 module.exports = router;
