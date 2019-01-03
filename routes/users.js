@@ -28,6 +28,9 @@ router.post('/create-user', function (req, res, next) {
 });
 
 router.get('/friends', Authentication, function(req, res, next) {
+    if(req.error){
+        res.json(req.error);
+    }
     res.json({message: 'friends'});
 });
 

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var expenseRouter = require('./routes/expense');
 
 const momgoose = require('mongoose');
 
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/expense', expenseRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

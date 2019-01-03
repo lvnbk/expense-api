@@ -1,3 +1,5 @@
+'use strict';
+
 const jwt = require('jsonwebtoken');
 const jwtConfig = require('../config/jwt');
 const ValidationError = require('../commons/errors/ValidationError');
@@ -16,38 +18,44 @@ class Authentication {
             const user = await User.findOne({_id: user_id});
 
             if(_30s.isNull(user)) {
-                throw new LogicError({
+                throw new LogicError([{
                     message: 'User not found'
-                })
+                }])
             }
 
             req.user = user;
             next();
         }catch (err) {
-            next(err);
+            req.error = err;
+            next();
         }
 
     }
 
-    async jwtVerify(authorization) {
-        return await new Promise((resolve, reject) => {
-            const [type, token] = authorization.split(' ');
-            if (type !== 'Bearer') reject(new ValidationError({
-                field: "access_token",
-                message: 'Type is invalid'
-            }));
+    jwtVerify(authorization) {
+        return new Promise((resolve, reject) => {
+            try {
+                if(!authorization) throw new ValidationError([{
+                    field: "access_token",
+                    message: 'access token is required'
+                }]);
 
-            jwt.verify(token, jwtConfig.secret, function (err, decode) {
-                if(err) return reject(err);
+                const [type, token] = authorization.split(' ');
 
-                resolve(decode.data);
-            })
-        }).catch(e => {
-            throw new ValidationError([{
-                field: "access_token",
-                message: e.message
-            }])
-        });
+                if (type !== 'Bearer') throw new ValidationError([{
+                    field: "access_token",
+                    message: 'Type is invalid'
+                }]);
+
+                return jwt.verify(token, jwtConfig.secret, function (err, decode) {
+                    if(err) return reject(err);
+
+                    resolve(decode.data);
+                });
+            } catch (e) {
+                reject(e.message)
+            }
+        })
     }
 }
 
