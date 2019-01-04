@@ -3,14 +3,16 @@ const mongoose  = require('mongoose');
 let Schema = mongoose.Schema;
 
 let expenseSchema = new Schema({
-    name: String,
+    expense_id: {type: String, require: true},
+    cost: {type: Number, required: true},
     type: {type: String, required: true},
     category: {type: String, required: true},
     category_desc: String,
-    cost: {type: Number, required: true},
+    description: String,
     created_at: Date,
     updated_at: Date,
-    description: String,
+    del_flag: Boolean,
+    has_sent: Boolean,
     uuid_user: {type: String, required: true}
 });
 

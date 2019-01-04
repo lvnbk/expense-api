@@ -1,14 +1,16 @@
-const Expense = require('../respositories/ExpenseRepository');
+const ExpenseRepository = require('../respositories/ExpenseRepository');
 
 class ExpenseController {
     constructor() {
-        this.expense = Expense;
+        this.expense = ExpenseRepository;
+    }
+
+    async getAllExpense(uuid_user) {
+        return ExpenseRepository.getAllExpense(uuid_user);
     }
 
     async createExpense(data) {
-        const expense = await this.expense.create(data);
-
-        return expense;
+        return await this.expense.create(data);
     }
 
     async updateExpense(data) {

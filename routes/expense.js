@@ -2,11 +2,30 @@ const express = require('express');
 const router = express.Router();
 const ExpenseController = require('../app/controllers/ExpenseController');
 
+router.get('/', async function(req, res, next) {
+    try{
+        let expense = await ExpenseController.getAllExpense(req.query.uuid_user);
+        console.log('expense get', expense);
+        res.json({
+            code: 0,
+            data: expense
+        })
+    }catch (e) {
+        res.json({})
+
+    }
+});
+
 router.post('/create', async function (req, res, next) {
     try {
         const expense = await ExpenseController.createExpense(req.body);
 
-        res.json(expense);
+        console.log('expense create', expense);
+
+        res.json({
+            code: 0,
+            data: expense
+        });
     } catch (error) {
         res.json({
             error: true,
@@ -19,7 +38,10 @@ router.put('/update', async function(req, res, next) {
     try{
         const expense = await ExpenseController.updateExpense(req.body);
 
-        res.json(expense);
+        res.json({
+            code: 0,
+            data: expense
+        });
     }catch (error) {
         res.json({
             error: true,
