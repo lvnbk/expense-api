@@ -8,12 +8,13 @@ class ExpenseRepository {
     }
 
     async getAllExpense(uuid_user) {
-        return await this.expense.find({uuid_user}).sort({created_at: -1}); // Asc sort.
+        return await this.expense.find({uuid_user, del_flag: false}).sort({created_at: -1}); // Asc sort.
     }
 
     async create(body) {
         if (body) {
             let expenseRequest = new Expense({
+                expense_id: body.expense_id,
                 type: body.type,
                 category: body.category,
                 category_desc: body.category_desc,

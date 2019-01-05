@@ -11,8 +11,8 @@ let expenseSchema = new Schema({
     description: String,
     created_at: Date,
     updated_at: Date,
-    del_flag: Boolean,
-    has_sent: Boolean,
+    del_flag: {type: Boolean, default: false},
+    has_sent: {type: Boolean, default: false},
     uuid_user: {type: String, required: true}
 });
 
