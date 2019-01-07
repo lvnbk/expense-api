@@ -9,6 +9,7 @@ let expenseSchema = new Schema({
     category: {type: String, required: true},
     category_desc: String,
     description: String,
+    date: Date,
     created_at: Date,
     updated_at: Date,
     del_flag: {type: Boolean, default: false},

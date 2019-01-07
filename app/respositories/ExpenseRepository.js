@@ -8,7 +8,14 @@ class ExpenseRepository {
     }
 
     async getAllExpense(uuid_user) {
-        return await this.expense.find({uuid_user, del_flag: false}).sort({created_at: -1}); // Asc sort.
+        return await this.expense.aggregate([
+            {
+                $group: {
+                    _id: {$substr: ["$date", 0, 10]},
+                    expense: { $push: "$$ROOT" }
+                }
+            }
+        ]).sort({_id: -1});
     }
 
     async create(body) {
@@ -19,6 +26,7 @@ class ExpenseRepository {
                 category: body.category,
                 category_desc: body.category_desc,
                 cost: body.cost,
+                date: body.date,
                 created_at: new Date(),
                 updated_at: new Date(),
                 description: body.description,
@@ -39,6 +47,7 @@ class ExpenseRepository {
             let expenseUpdate = {
                 name: body.name,
                 type: body.type,
+                date: body.date,
                 category: body.category,
                 category_desc: body.category_desc,
                 cost: body.cost,
