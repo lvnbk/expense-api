@@ -14,8 +14,11 @@ class ExpenseRepository {
                     _id: {$substr: ["$date", 0, 10]},
                     expense: { $push: "$$ROOT" }
                 }
+            },
+            {
+                $sort: {'_id': -1}
             }
-        ]).sort({_id: -1});
+        ]);
     }
 
     async create(body) {
