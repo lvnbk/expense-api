@@ -1,5 +1,6 @@
 const Users = require('../models/Users');
 const Helper = require('../commons/Helper');
+const request = require('request-promise');
 
 class UserController {
     async create(body, err, next) {
@@ -18,6 +19,13 @@ class UserController {
 
            next(user);
         });
+    }
+
+    async registerFacebook(body, err, next) {
+        // you'll need to have requested 'user_about_me' permissions
+        // in order to get 'quotes' and 'about' fields from search
+        const userFieldSet = 'name, link, is_verified, picture';
+        const pageFieldSet = 'name, category, link, picture, is_verified';
     }
 }
 

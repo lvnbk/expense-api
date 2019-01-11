@@ -30,6 +30,7 @@ class ExpenseRepository {
                 category_desc: body.category_desc,
                 cost: body.cost,
                 date: body.date,
+                dateShort: body.dateShort,
                 created_at: new Date(),
                 updated_at: new Date(),
                 description: body.description,
