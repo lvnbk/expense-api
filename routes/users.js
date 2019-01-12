@@ -35,37 +35,9 @@ router.get('/friends', Authentication, function (req, res, next) {
     res.json({message: 'friends'});
 });
 
-router.post('/facebook-search', (req, res) => {
-    const queryTerm = 'Fiat';
-    const searchType = 'user';
-
-    const userFieldSet = 'name, link, is_verified, picture';
-    const pageFieldSet = 'name, category, link, picture, is_verified';
-
-    const options = {
-        method: 'GET',
-        uri: 'https://graph.facebook.com/search',
-        qs: {
-            access_token: req.body.access_token,
-            q: queryTerm,
-            type: searchType,
-            fields: userFieldSet
-        }
-    };
-
-    request(options)
-        .then(fbRes => {
-            // Search results are in the data property of the response.
-            // There is another property that allows for pagination of results.
-            // Pagination will not be covered in this post,
-            // so we only need the data property of the parsed response.
-            const parsedRes = JSON.parse(fbRes).data;
-            console.log('parsedRes', request);
-            res.json(parsedRes);
-        }).catch(err => {
-        console.log('error', err);
-        res.json(err);
-    });
+router.post('/login-facebook', (req, res) => {
+    console.log('access_token', req.body.access_token);
+    UserController.getUserInfoFacebook(req.body.access_token);
 });
 
 module.exports = router;

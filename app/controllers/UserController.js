@@ -1,6 +1,11 @@
 const Users = require('../models/Users');
 const Helper = require('../commons/Helper');
-const request = require('request-promise');
+const util = require('util');
+const AndrisFetch = require('../commons/http/AndrisFetch');
+
+const graphUrl = 'https://graph.facebook.com';
+const version = 'v2.11';
+const fields = ['picture.width(200).height(200)', 'name', 'email', 'gender', 'verified', 'link'];
 
 class UserController {
     async create(body, err, next) {
@@ -21,12 +26,12 @@ class UserController {
         });
     }
 
-    async registerFacebook(body, err, next) {
-        // you'll need to have requested 'user_about_me' permissions
-        // in order to get 'quotes' and 'about' fields from search
-        const userFieldSet = 'name, link, is_verified, picture';
-        const pageFieldSet = 'name, category, link, picture, is_verified';
+    async getUserInfoFacebook(access_token) {
+        let url = util.format('%s/%s/me?access_token=%s&fields=%s', graphUrl, version, access_token, fields);
+        let response = await AndrisFetch.fetch(url);
+
+        console.log('getUserInfoFacebook response', response);
     }
 }
 
-module.exports = UserController;
+module.exports = new UserController();

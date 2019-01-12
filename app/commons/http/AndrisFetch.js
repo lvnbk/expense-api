@@ -1,4 +1,4 @@
-var fetchUrl = require("fetch").fetchUrl;
+const fetch = require("node-fetch");
 
 // const fetch = function (url) {
 //     return new Promise((resolve, reject) => {
@@ -32,8 +32,7 @@ module.exports = {
             throw error;
         });
 	}
-
-}
+};
 
 // module.exports = {
 //     fetch: fetch
