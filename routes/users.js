@@ -40,4 +40,12 @@ router.post('/login-facebook', (req, res) => {
     UserController.getUserInfoFacebook(req.body.access_token);
 });
 
+router.post('/login-google', (req, res) => {
+    console.log('access_token', req.body.access_token);
+
+    UserController.getUserInfoGoogle(req.body.access_token);
+});
+
+
+
 module.exports = router;

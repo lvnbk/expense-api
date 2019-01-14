@@ -7,6 +7,8 @@ const graphUrl = 'https://graph.facebook.com';
 const version = 'v2.11';
 const fields = ['picture.width(200).height(200)', 'name', 'email', 'gender', 'verified', 'link'];
 
+const googleUrl = 'https://www.googleapis.com/plus/v1/people/me';
+
 class UserController {
     async create(body, err, next) {
         const user = new Users({
@@ -31,6 +33,13 @@ class UserController {
         let response = await AndrisFetch.fetch(url);
 
         console.log('getUserInfoFacebook response', response);
+    }
+
+    async getUserInfoGoogle(access_token) {
+        let url = util.format('%s?access_token=%s', googleUrl, access_token);
+        let response = await AndrisFetch.fetch(url);
+
+        console.log('response google', response);
     }
 }
 
