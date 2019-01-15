@@ -3,6 +3,8 @@ var router = express.Router();
 const UserController = require('../app/controllers/UserController');
 const Authentication = require('../app/middlewares/Authentication');
 const request = require('request-promise');
+const jwt = require('jsonwebtoken');
+const jwtConfig = require('../app/config/jwt');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -35,9 +37,19 @@ router.get('/friends', Authentication, function (req, res, next) {
     res.json({message: 'friends'});
 });
 
-router.post('/login-facebook', (req, res) => {
+router.post('/login-facebook', async (req, res) => {
     console.log('access_token', req.body.access_token);
-    UserController.getUserInfoFacebook(req.body.access_token);
+    let user = await UserController.getUserInfoFacebook(req.body.access_token);
+
+    let jsonToken = jwt.sign({user_id: user._id}, jwtConfig.secret);
+
+    console.log('jsonToken post', jsonToken);
+
+    jwt.verify(jsonToken, jwtConfig.secret, (err, decode) => {
+        if(err) return console.log('err', err);
+        console.log('decode', decode);
+    })
+
 });
 
 router.post('/login-google', (req, res) => {
