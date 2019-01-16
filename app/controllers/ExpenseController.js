@@ -19,6 +19,8 @@ class ExpenseController {
             result = model;
         });
 
+        console.log('updateExpense', result);
+
         return result;
     }
 }

@@ -60,22 +60,32 @@ class ExpenseRepository {
                 description: body.description
             };
 
-            expenseUpdate = JSON.parse(JSON.stringify(expenseUpdate));
+            let expenseServer = await this.expense.findOne({expense_id: body.expense_id});
 
-            try {
-                let data = await this.expense.findByIdAndUpdate({_id: '5c2ddaa34c4e7d1aca287340'},
-                    {
-                        $set: expenseUpdate
-                    },
-                    {
-                        new: true
-                    },
-                    (err, model) => {
-                        cb(model);
-                    }
-                );
-            } catch (e) {
-                throw e;
+            if(expenseServer) {
+                expenseUpdate = JSON.parse(JSON.stringify(expenseUpdate));
+
+                try {
+                    let data = await this.expense.findByIdAndUpdate({_id: expenseServer._id},
+                        {
+                            $set: expenseUpdate
+                        },
+                        {
+                            new: true
+                        },
+                        (err, model) => {
+                            if(err) console.log('error update', err);
+
+                            console.log('model', model);
+
+                            cb(model);
+                        }
+                    );
+                } catch (e) {
+                    throw e;
+                }
+            }else{
+                console.log('Not found expense');
             }
         }
     }
