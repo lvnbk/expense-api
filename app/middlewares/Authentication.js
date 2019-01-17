@@ -26,8 +26,7 @@ class Authentication {
             req.user = user;
             next();
         }catch (err) {
-            req.error = err;
-            next();
+            next(err);
         }
 
     }
@@ -47,7 +46,7 @@ class Authentication {
                     message: 'Type is invalid'
                 }]);
 
-                return jwt.verify(token, jwtConfig.secret, function (err, decode) {
+                jwt.verify(token, jwtConfig.secret, (err, decode) => {
                     if(err) return reject(err);
 
                     resolve(decode.data);

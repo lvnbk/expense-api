@@ -58,6 +58,20 @@ router.post('/login-google', (req, res) => {
     UserController.getUserInfoGoogle(req.body.access_token);
 });
 
+router.get('/me', Authentication, async (req, res) => {
+    if(req.error) {
+        res.json({
+            data: null,
+            message: req.error.message,
+            error: true
+        });
+    }
 
+    res.json({
+        data: req.user,
+        message: 'Get user info successfully',
+        error: false
+    })
+});
 
 module.exports = router;
